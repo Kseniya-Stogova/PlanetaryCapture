@@ -296,6 +296,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spaceshipConfig: {fileID: 11400000, guid: a878e034abb72804996d1128dbe107fa, type: 2}
   _text: {fileID: 5787290534299750124}
+  _planetRadius: 8
+  _flybyCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.058705613
+      value: 0.007650137
+      inSlope: 0.27967125
+      outSlope: 0.27967125
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.054955777
+    - serializedVersion: 3
+      time: 0.5
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 0
+    m_RotationOrder: 4
   target: {fileID: 0}
   team: 0
   count: 0

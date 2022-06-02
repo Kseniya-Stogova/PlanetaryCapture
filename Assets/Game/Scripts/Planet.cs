@@ -121,7 +121,14 @@ namespace PlanetaryCapture
 
         public void OnPointerExit(PointerEventData eventData)
         {
+            if (_selected.color == Color.green) return;
             Choose(false);
+        }
+
+        public void Select(bool on)
+        {
+            _selected.color = on ? Color.green : Color.white;
+            Choose(on);
         }
     }
 }

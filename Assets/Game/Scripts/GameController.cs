@@ -39,10 +39,6 @@ namespace PlanetaryCapture
             StartCoroutine(UpdateCapture());
         }
 
-        private void Update()
-        {
-        }
-
         IEnumerator UpdateCapture()
         {
             while (true)
@@ -57,15 +53,19 @@ namespace PlanetaryCapture
 
         private void PlanetSelect(Planet planet)
         {
-            
-
-            if (_firstPlanet == null) _firstPlanet = planet;
+            if (_firstPlanet == null)
+            {
+                planet.Select(true);
+                _firstPlanet = planet;
+            }
             else if (_secondPlanet == null)
             {
-                
+                _firstPlanet.Select(false);
+                if (planet == _firstPlanet)
+                {
+                    return;
+                }
                 _secondPlanet = planet;
-                Debug.Log(_firstPlanet);
-                Debug.Log(_secondPlanet);
                 CreateSpaceShip();
             }
             else
@@ -77,32 +77,25 @@ namespace PlanetaryCapture
 
         private void CreateSpaceShip()
         {
-            //if (_firstPlanet == null || _secondPlanet == null) return;
-
             float percentToSend = ServiceLocator.GetService<Slider>().value;
             int countToSend = _firstPlanet.TakeBlueSpaceship(percentToSend);
             if (countToSend == 0) return;
 
             Spaceship spaceship = SpaceshipPool.SharedInstance.GetSpaceship();
             spaceship.transform.position = _firstPlanet.transform.position;
-            spaceship.Initialize(_secondPlanet.transform, Team.Blue, countToSend);
-            spaceship.arrived += () => SpaceshipArrived(_secondPlanet, spaceship);
+            spaceship.Initialize(_secondPlanet, Team.Blue, countToSend);
+            spaceship.arrived += SpaceshipArrived;
 
-            /*Sequence seq = DOTween.Sequence();
-
-            seq
-                .Append(spaceship.transform.DOMove(_secondPlanet.transform.position,
-                    Vector3.Distance(_firstPlanet.transform.position, _secondPlanet.transform.position) /
-                    spaceship.speed))
-                .AppendCallback(() => SpaceshipArrived(_secondPlanet, spaceship));*/
-
-            //_firstPlanet = null;
-            //_secondPlanet = null;
+            _firstPlanet.Select(false);
+            _firstPlanet = null;
+            _secondPlanet.Select(false);
+            _secondPlanet = null;
         }
 
         private void SpaceshipArrived(Planet planet, Spaceship spaceship)
         {
             planet.UpCount(spaceship.team, spaceship.count);
+            spaceship.arrived -= SpaceshipArrived;
         }
     }
 }
