@@ -33,9 +33,6 @@ namespace PlanetaryCapture
                 planet.choose += PlanetSelect;
             }
 
-            _planets[0].UpCount(Team.Red, 20);
-            _planets[0].UpCount(Team.Blue, 60);
-
             StartCoroutine(UpdateCapture());
         }
 
@@ -66,7 +63,7 @@ namespace PlanetaryCapture
                     return;
                 }
                 _secondPlanet = planet;
-                CreateSpaceShip();
+                CreateBlueSpaceship();
             }
             else
             {
@@ -75,7 +72,7 @@ namespace PlanetaryCapture
             }
         }
 
-        private void CreateSpaceShip()
+        private void CreateBlueSpaceship()
         {
             float percentToSend = ServiceLocator.GetService<Slider>().value;
             int countToSend = _firstPlanet.TakeBlueSpaceship(percentToSend);

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -30,6 +31,7 @@ namespace PlanetaryCapture
         private void Start()
         {
             Team = _planetConfig.StartTeam;
+            StartCoroutine(GenerateSpaceship());
         }
 
         public int TakeBlueSpaceship(float percent)
@@ -39,6 +41,24 @@ namespace PlanetaryCapture
             SetCountTeams();
 
             return spaceship;
+        }
+
+        public int TakeRedSpaceship(float percent)
+        {
+            int spaceship = (int)(_redCount * percent);
+            _redCount -= spaceship;
+            SetCountTeams();
+
+            return spaceship;
+        }
+
+        public float TakeRedPercentCapture()
+        {
+            if (_redCount + _blueCount == 0) return 0;
+
+            float percent = _redCount / (_redCount + _blueCount);
+
+            return percent;
         }
 
         public void UpCount(Team team, int count)
@@ -99,7 +119,17 @@ namespace PlanetaryCapture
 
             float percent = 0;
 
-            if (blueCount + redCount != 0) percent = (float) redCount / (blueCount + redCount);
+            if (blueCount + redCount != 0)
+            {
+                percent = (float) redCount / (blueCount + redCount);
+
+                if (percent == 1) Team = Team.Red;
+                else if (blueCount / (blueCount + redCount) == 1)
+                {
+                    Team = Team.Blue;
+                }
+                else Team = Team.Neutral;
+            }
 
             _percent.SetPercent(percent);
         }
@@ -129,6 +159,15 @@ namespace PlanetaryCapture
         {
             _selected.color = on ? Color.green : Color.white;
             Choose(on);
+        }
+
+        IEnumerator GenerateSpaceship()
+        {
+            while (true)
+            {
+                if (Team != Team.Neutral) UpCount(Team, 1);
+                yield return new WaitForSeconds(_planetConfig.SpeedGeneration);
+            }
         }
     }
 }
