@@ -1,4 +1,4 @@
-//-----------------------------------------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------------------------------------
 
 using System.Collections.Generic;
 using UnityEngine;
@@ -56,7 +56,7 @@ public static class ServiceLocator
     /// <returns></returns>
     static T FindService<T>(bool createObjectIfNotFound = true) where T : Object
     {
-        T type = GameObject.FindObjectOfType<T>();
+        T type = GameObject.FindObjectOfType<T>(true);
         if (type != null)
         {
             //If found add it to the dictonary

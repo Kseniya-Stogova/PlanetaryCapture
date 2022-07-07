@@ -3,6 +3,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace PlanetaryCapture
 {
@@ -57,6 +58,15 @@ namespace PlanetaryCapture
             if (_redCount + _blueCount == 0) return 0;
 
             float percent = _redCount / (_redCount + _blueCount);
+
+            return percent;
+        }
+
+        public float TakeBluePercentCapture()
+        {
+            if (_redCount + _blueCount == 0) return 0;
+
+            float percent = _blueCount / (_redCount + _blueCount);
 
             return percent;
         }
@@ -127,6 +137,8 @@ namespace PlanetaryCapture
                 else if (blueCount / (blueCount + redCount) == 1)
                 {
                     Team = Team.Blue;
+
+                    if (_planetConfig.StartTeam != Team.Blue) ServiceLocator.GetService<Score>().UpScore(1);
                 }
                 else Team = Team.Neutral;
             }

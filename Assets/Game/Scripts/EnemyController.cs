@@ -28,7 +28,7 @@ namespace PlanetaryCapture
             
             foreach (var planet in _planets)
             {
-                if (planet.TakeRedPercentCapture() == 1)
+                if (planet.TakeRedPercentCapture() == 1 && planetForCheck != planet)
                 {
                     CreateRedSpaceship(0.5f, planet, planetForCheck);
                     return;
@@ -44,6 +44,7 @@ namespace PlanetaryCapture
             Spaceship spaceship = SpaceshipPool.SharedInstance.GetSpaceship();
             spaceship.transform.position = firstPoint.transform.position;
             spaceship.Initialize(secondPoint, Team.Red, countToSend);
+            spaceship.ChangeColor(Team.Red);
             spaceship.arrived += SpaceshipArrived;
         }
 
